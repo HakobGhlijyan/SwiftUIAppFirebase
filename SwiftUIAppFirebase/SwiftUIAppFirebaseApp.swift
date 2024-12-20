@@ -15,6 +15,7 @@ struct SwiftUIAppFirebaseApp: App {
         FirebaseApp.configure()
         print("App Started")
         print("Firebase App Configuration Completed")
+        print("Firebase App Configuration Completed")
     }
     var body: some Scene {
         WindowGroup {
