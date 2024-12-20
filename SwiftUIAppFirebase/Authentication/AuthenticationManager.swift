@@ -50,7 +50,6 @@ final class AuthenticationManager {
                 providers.append(option)
             } else {
                 assertionFailure("Provider option not found: \(provider.providerID)")
-                // Error -> OCHIBKA UTVERJDENIE
             }
         }
         return providers

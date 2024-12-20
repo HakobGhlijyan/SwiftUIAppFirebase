@@ -16,13 +16,11 @@ final class AuthenticationViewModel: ObservableObject  {
         let tokens = try await helper.singIn()
         let authDataResult = try await AuthenticationManager.shared.singInWithGoogle(tokens: tokens)
     }
-    
     func signInApple() async throws {
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
         let authDataResult = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
     }
-    
 }
 
 struct AuthenticationView: View {
