@@ -16,7 +16,7 @@ struct GoogleSignInResultModel {
     let email: String?
 }
 
-final class SignInWithGoogleHelper {
+final class SignInGoogleHelper {
     @MainActor
     func singIn() async throws -> GoogleSignInResultModel {
         guard let topzVC = Utilities.shared.topViewController() else {

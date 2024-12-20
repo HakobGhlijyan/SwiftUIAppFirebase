@@ -10,12 +10,19 @@ import GoogleSignIn
 import GoogleSignInSwift
 
 @MainActor
-final class AuthenticationViewModel: ObservableObject {
+final class AuthenticationViewModel: ObservableObject  {
     func signInGoogle() async throws {
-        let helper = SignInWithGoogleHelper()
+        let helper = SignInGoogleHelper()
         let tokens = try await helper.singIn()
-        try await AuthenticationManager.shared.singInWithGoogle(tokens: tokens)
+        let authDataResult = try await AuthenticationManager.shared.singInWithGoogle(tokens: tokens)
     }
+    
+    func signInApple() async throws {
+        let helper = SignInAppleHelper()
+        let tokens = try await helper.startSignInWithAppleFlow()
+        let authDataResult = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+    }
+    
 }
 
 struct AuthenticationView: View {
@@ -46,16 +53,20 @@ struct AuthenticationView: View {
                     }
                 }
             }
-            
-            GoogleSigInButtonCustom {
+
+            Button {
                 Task {
                     do {
-                        try await viewModel.signInGoogle()
+                        try await viewModel.signInApple()
                         showSignInView = false
                     } catch {
                         print(error)
                     }
                 }
+            } label: {
+                SignInWithAppleButtonViewRepresentable(type: .default, style: .black)
+                    .allowsHitTesting(false)
+                    .frame(height: 55)
             }
 
             Spacer()
@@ -68,32 +79,5 @@ struct AuthenticationView: View {
 #Preview {
     NavigationStack {
         AuthenticationView(showSignInView: .constant(false))
-    }
-}
-
-
-struct GoogleSigInButtonCustom: View {
-    var action: () -> Void
-    
-    var body: some View {
-        Button {
-            action()
-        } label: {
-            ZStack{
-                Circle()
-                    .foregroundColor(.white)
-                    .shadow(color: .gray, radius: 4, x: 0, y: 2)
-                
-                Image("google")
-                    .resizable()
-                    .scaledToFit()
-                    .padding(8)
-                    .mask(
-                        Circle()
-                    )
-            }
-            
-        }
-        .frame(width: 50, height: 50)
     }
 }
