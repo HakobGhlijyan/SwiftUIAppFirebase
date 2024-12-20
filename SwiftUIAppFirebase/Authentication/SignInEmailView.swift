@@ -19,13 +19,13 @@ final class SignInEmailViewModel: ObservableObject {
     
     func signIn() async throws {
         guard !email.isEmpty, !password.isEmpty else { return }
-        try await AuthenticationManager.shared.signIn(email: email, password: password)
+        try await AuthenticationManager.shared.signInUser(email: email, password: password)
     }
     
 }
 
 struct SignInEmailView: View {
-    @StateObject private var viewModel = SignInEmailViewModel()
+    @StateObject private var viewModel: SignInEmailViewModel = SignInEmailViewModel()
     @Binding var showSignInView: Bool
     
     var body: some View {
