@@ -61,6 +61,13 @@ final class AuthenticationManager {
     func signOut() throws {
         try Auth.auth().signOut()
     }
+    
+    func delete() async throws {
+        guard let user = Auth.auth().currentUser else {
+            throw URLError(.badServerResponse)
+        }
+        try await user.delete()
+    }
 }
 
 
