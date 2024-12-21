@@ -14,12 +14,15 @@ final class AuthenticationViewModel: ObservableObject  {
     func signInGoogle() async throws {
         let helper = SignInGoogleHelper()
         let tokens = try await helper.singIn()
-        let authDataResult = try await AuthenticationManager.shared.singInWithGoogle(tokens: tokens)
+        try await AuthenticationManager.shared.singInWithGoogle(tokens: tokens)
     }
     func signInApple() async throws {
         let helper = SignInAppleHelper()
         let tokens = try await helper.startSignInWithAppleFlow()
-        let authDataResult = try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+        try await AuthenticationManager.shared.signInWithApple(tokens: tokens)
+    }
+    func signInAnonymous() async throws {
+        try await AuthenticationManager.shared.signInAnonymously()
     }
 }
 
@@ -29,6 +32,25 @@ struct AuthenticationView: View {
     
     var body: some View {
         VStack {
+            Button {
+                Task {
+                    do {
+                        try await viewModel.signInAnonymous()
+                        showSignInView = false
+                    } catch {
+                        print(error)
+                    }
+                }
+            } label: {
+                Text("Sign In Anonymous")
+                    .font(.headline)
+                    .foregroundStyle(.white)
+                    .frame(height: 55)
+                    .frame(maxWidth: .infinity)
+                    .background(.orange)
+                    .cornerRadius(10)
+            }
+            
             NavigationLink {
                 SignInEmailView(showSignInView: $showSignInView)
             } label: {
