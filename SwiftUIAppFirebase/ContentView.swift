@@ -9,7 +9,22 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Text("Hello")
+        VStack {
+            Text("Module 01 - Connecting to App Firebase")
+            
+            Text("Module 02 - Email")
+            
+            Text("Module 03 - Google ")
+            
+            Text("Module 04 - Apple")
+            
+            Text("Module 05 - Anon")
+            
+            Text("Module 06 - Delete User")
+            
+            Text("Module 07 - Firebase Firestore - part 1")
+            
+        }
     }
 }
 
