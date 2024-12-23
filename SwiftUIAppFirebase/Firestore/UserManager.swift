@@ -110,40 +110,36 @@ final class UserManager {
         let data: [String: Any] = [DBUser.CodingKeys.isPremium.rawValue : isPremium]
         try await userDocument(userID: userID).updateData(data)
     }
+    
     //MARK: - ARRAY
-    //SDES MI ISPOLZUEM DOBAVLENIE V ARRAYUNION
     func addUserPreference(userID: String, preference: String) async throws {
         let data: [String: Any] = [
             DBUser.CodingKeys.preferences.rawValue : FieldValue.arrayUnion([preference])
         ]
         try await userDocument(userID: userID).updateData(data)
-    }//SDES MI ISPOLZUEM UDALENIE TEXT V ARRAYREMOVE
+    }
     func removeUserPreference(userID: String, preference: String) async throws {
         let data: [String: Any] = [
             DBUser.CodingKeys.preferences.rawValue : FieldValue.arrayRemove([preference])
         ]
         try await userDocument(userID: userID).updateData(data)
     }
+    
     //MARK: - ARRAY MAP
-    //SDES MI ISPOLZUEM FIRESTORE>ENCODER CODIRUEM V VIS JSON DIC
     func addFavoriteMovie(userID: String, movie: Movie) async throws {
         let encoder = Firestore.Encoder()
         guard let data = try? encoder.encode(movie) else {
             throw URLError(.badURL)
         }
-        // POTOM PO KEY DOBAVLYAEM EGO
         let dic: [String: Any] = [
             DBUser.CodingKeys.favoritesMovie.rawValue : data
         ]
         try await userDocument(userID: userID).updateData(dic)
     }
-    //SDES MI PRODTO UDALYAEM EGO DELAYA NIL
     func removeFavoriteMovie(userID: String) async throws {
         let data: [String: Any?] = [
             DBUser.CodingKeys.favoritesMovie.rawValue : nil
         ]
         try await userDocument(userID: userID).updateData(data as [AnyHashable : Any])
     }
-    
-    
 }
