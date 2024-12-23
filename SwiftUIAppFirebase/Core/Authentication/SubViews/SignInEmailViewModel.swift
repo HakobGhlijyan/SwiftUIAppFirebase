@@ -14,10 +14,9 @@ final class SignInEmailViewModel: ObservableObject {
     
     func signUp() async throws {
         guard !email.isEmpty, !password.isEmpty else { return }
-        //Create
         let authDataResult = try await AuthenticationManager.shared.createUser(email: email, password: password)
-        // Add in firestore
-        try await UserManager.shared.createNewUser(auth: authDataResult)
+        let user = DBUser(auth: authDataResult)
+        try await UserManager.shared.createNewUser(user: user)
     }
     
     func signIn() async throws {
