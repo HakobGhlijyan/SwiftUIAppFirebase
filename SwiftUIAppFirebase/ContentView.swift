@@ -24,6 +24,9 @@ struct ContentView: View {
             
             Text("Module 07 - Firebase Firestore - part 1")
             
+            Text("Module 07 - Firebase Firestore - part 2")
+            
+            
         }
     }
 }

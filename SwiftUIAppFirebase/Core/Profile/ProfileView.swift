@@ -10,22 +10,10 @@ import SwiftUI
 @MainActor
 final class ProfileViewModel: ObservableObject {
     @Published private(set) var user: DBUser? = nil
-    
     func loadCurrentUser() async throws {
         let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
         self.user = try await UserManager.shared.getUser(userID: authDataResult.uid)
     }
-    
-    //MENYAET VSE DANIE , MODET BIT CHO V Base danie kotorie poluchili pri smene , drugie toje izmenili , a mi to je izmenim na te kotorie u nas... budet ne besopasno....
-//    func tooglePremiumState() {
-//        guard var user else { return }
-//        user.tooglePremiumState()
-//        Task {
-//            try await UserManager.shared.updateUserPremiumStatus(user: user)
-//            self.user = try await UserManager.shared.getUser(userID: user.userID)
-//        }
-//    }
-    // Menyaem tolko is premium po id user a
     func tooglePremiumState() {
         guard let user else { return }
         let currentUserID = user.userID
