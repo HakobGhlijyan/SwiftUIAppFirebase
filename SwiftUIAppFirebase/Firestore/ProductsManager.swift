@@ -23,33 +23,14 @@ final class ProductsManager {
         try productDocument(productID: String(product.id)).setData(from: product, merge: false)
     }
     
-    // GET All Product
     func getAllProducts() async throws -> [Product] {
-        //code ex extenson func
         try await productCollection.getDocumentsT(as: Product.self)
-        //CODE
-        /*
-         //1: - Get all doc by product collection (is 30)
-         let snapshot = try await productCollection.getDocuments()
-         //1.1: Array for product for append by decodede 1 by 1 product
-         var products: [Product] = []
-         //2: - for in array
-         for document in snapshot.documents {
-             //3: decode -> my decodable data is product
-             let product = try document.data(as: Product.self)
-             products.append(product)
-         }
-         //4: - return product array
-         return products
-         */
     }
     
-    // GET 1 Product
     func getProduct(productID: String) async throws -> Product {
         try await productDocument(productID: productID).getDocument(as: Product.self)
     }
     
-    //ONLY FIRST TIME
     func downloadProductsAndUploadToFirebase() {
         guard let url = URL(string: "https://dummyjson.com/products") else { return }
         
@@ -80,49 +61,5 @@ extension Query {
             try document.data(as: T.self)
         }
     }
-    // EXAMPLE + MAP -> .......
-    /*
-     
-     //3 UNIVERSAL - T
-     func getDocumentsCustom<T>(as type: T.Type) async throws -> [T] where T: Decodable {
-         let snapshot = try await self.getDocuments()
-         var products: [T] = []
-         for document in snapshot.documents {
-             let product = try document.data(as: T.self)
-             products.append(product)
-         }
-         return products
-     }
-     
-     //2 S NAZNACHENIYEM TYPE.. TOLKO Product , NO UNIVERSAL
-     func getDocumentsCustom(as type: Product.Type) async throws -> [Product] {
-         let snapshot = try await self.getDocuments()
-         var products: [Product] = []
-         for document in snapshot.documents {
-             let product = try document.data(as: Product.self)
-             products.append(product)
-         }
-         return products
-     }
-     
-     //1 BEZ NAZNACHENIYA TYPE..
-     func getDocumentsCustom() async throws -> [Product] {
-         let snapshot = try await self.getDocuments()
-         var products: [Product] = []
-         for document in snapshot.documents {
-             let product = try document.data(as: Product.self)
-             products.append(product)
-         }
-         return products
-     }
-     
-     let cast = ["Vivien", "Marlon", "Kim", "Karl"]                         //ETO MASIV
-
-     let lowercaseNames = cast.map { $0.lowercased() }                      //DELAEM MAP .... KAJDIY ELEMENT S MALENKOY BUKVI
-     // 'lowercaseNames' == ["vivien", "marlon", "kim", "karl"]]            //!!!!POLUCHAEM!!!!
-
-     let letterCounts = cast.map { $0.count }                               //DELAEM MAP .... KAJDIY ELEMENT S shitaya bukvi...
-     // 'letterCounts' == [6, 6, 3, 4]                                      //!!!!POLUCHAEM!!!!
-     */
 }
 

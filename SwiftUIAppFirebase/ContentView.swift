@@ -26,6 +26,37 @@ struct ContentView: View {
             
             Text("Module 07 - Firebase Firestore - part 2")
             
+            Text("""
+                Module 07 - Firebase Firestore - part 3
+                
+                End part 3
+                1: -add new value in dbuser , and in model movie
+                2:- preference array string
+                add FieldValue.arrayUnion([preference])
+                remove FieldValue.arrayRemove([preference])
+                3: - add favorite movie for map datause encoder firebase for make json [String: Any] and for delete
+
+                Profile view add func add and remove
+                
+                """)
+            
+            Text("""
+                Module 07 - Firebase Firestore - part 4
+                
+                Part 04 End
+                1.
+                Add database api call
+                add cell product
+                ADD PRODUCT view and add iin rootview for testing
+                2.
+                In Product manager
+                add 1 product get by id
+                change get all product for custom universal func  getDocumentsT() is
+                use history and map all snapshot array
+                """)
+            
+            
+            Text("Module 07 - Firebase Firestore - part ")
             
         }
     }
