@@ -28,13 +28,13 @@ struct ProductCellView: View {
             VStack(alignment: .leading, spacing: 4) {
                 Text(product.title ?? "n/a")
                     .font(.headline)
-                    .foregroundStyle(.primary)
+                    .foregroundStyle(Color.primary)
                 Text("Price: $" + String(product.price ?? 0))
                 Text("Category: " + (product.category?.rawValue.capitalized ?? "n/a"))
                 Text("Brand: " + (product.brand ?? "n/a"))
             }
             .font(.subheadline)
-            .foregroundStyle(.secondary)
+            .foregroundStyle(Color.secondary)
         }
     }
 }
