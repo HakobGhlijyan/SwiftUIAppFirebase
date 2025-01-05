@@ -16,11 +16,7 @@ final class ProductsViewModel: ObservableObject {
     func downloadProductsAndUploadToFirebase() {
         ProductsManager.shared.downloadProductsAndUploadToFirebase()
     }
-    
-//    func getAllProducts() async throws {
-//        self.products = try await ProductsManager.shared.getAllProducts()
-//    }
-    
+        
     enum FilterOption: String, CaseIterable {
         case noFilter
         case priceHigh
@@ -36,14 +32,6 @@ final class ProductsViewModel: ObservableObject {
     }
     
     func filterSelected(option: FilterOption) async throws {
-//        switch option {
-//        case .noFilter:
-//            self.products = try await ProductsManager.shared.getAllProducts()
-//        case .priceHigh:
-//            self.products = try await ProductsManager.shared.getAllProductsSortedByPrice(descending: true )
-//        case .priceLow:
-//            self.products = try await ProductsManager.shared.getAllProductsSortedByPrice(descending: false )
-//        }
         self.selectedFilter = option
         self.getProduct()
     }
@@ -64,16 +52,6 @@ final class ProductsViewModel: ObservableObject {
     }
     
     func categotySelected(option: CategoryOption) async throws {
-//        switch option {
-//        case .noCategory:
-//            self.products = try await ProductsManager.shared.getAllProducts()
-//        case .furniture:
-//            self.products = try await ProductsManager.shared.getAllProductsForCategory(category: option.rawValue)
-//        case .beauty:
-//            self.products = try await ProductsManager.shared.getAllProductsForCategory(category: option.rawValue)
-//        case .groceries:
-//            self.products = try await ProductsManager.shared.getAllProductsForCategory(category: option.rawValue)
-//        }
         self.selectedCategoty = option
         self.getProduct()
     }
@@ -120,9 +98,6 @@ struct ProductsView: View {
             }
         }
         .navigationTitle("Products")
-//        .task {
-//            try? await viewModel.getAllProducts()
-//        }
         .onAppear {
             viewModel.getProduct()
         }

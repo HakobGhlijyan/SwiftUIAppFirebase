@@ -59,7 +59,23 @@ struct ContentView: View {
             Text("""
                 Module 07 - Firebase Firestore - part 5
                            
-                Part 04 End
+                Part 05 End
+                1. add filter and category option
+                filter enum
+                sort category enum
+
+                2. add button for order and fileter
+
+                3. Add codding kay for product .. is use in func for sort
+
+                4. Add product manager func for
+                get all product .
+                get one product
+                get all sorted by price
+                get all filter category
+
+                add all in one func get all documents 2 func is paramets in use switch for options
+
                 
                 """)
             
