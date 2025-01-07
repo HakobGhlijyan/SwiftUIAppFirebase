@@ -79,6 +79,83 @@ struct ContentView: View {
                 
                 """)
             
+            Text("""
+                Module 07 - Firebase Firestore - part 6
+                
+                Firebase Firestore Pagination, Limits and Aggregations  
+                
+                Part 06 End
+                1. ADD in Product model Equatable
+                for _ lhs: Product, _ rhs: Product
+                
+                2. Add PruductViewCell rating ... for use func rating
+                
+                3. change all get product func 
+                NOW its return is QUERY Not PRODUCT....
+                USE getAllProducts(priceDescending descending: Bool?, forCategory category: String?, count: Int, lastDocument: DocumentSnapshot?) async throws -> (product: [Product], lastDocument: DocumentSnapshot?) 
+                
+                         TEPER ISPOLZUEM EGO
+                         func startOptionally(afterDocument lastDocument: DocumentSnapshot?) -> Query {
+                             guard let lastDocument else { return self }
+                             return self.start(afterDocument: lastDocument)
+                         }
+                         
+                         A POTOM EGO
+                         
+                         .getDocumentsWithSnapshotT(as: Product.self)
+                
+                         VMSTO ETOGO
+                         
+                         
+                         if let lastDocument {
+                             return try await query
+                                 .limit(to: count)
+                                 .start(afterDocument: lastDocument)
+                                 .getDocumentsWithSnapshotT(as: Product.self)
+                         } else {
+                             return try await query
+                                 .limit(to: count)
+                                 .getDocumentsWithSnapshotT(as: Product.self)
+                         }
+                         
+                
+                4. Add //PRODUCT BY RATING
+                    func getProductsByRating(count: Int, lastDocument: DocumentSnapshot?) async throws -> (product: [Product], lastDocument: DocumentSnapshot?)
+                
+                it use LIMIT
+                                limit(to: count)
+                
+                5.
+                in getAllProducts .. 
+                USE LIMIT + PAGINATION 
+                                count: Int, lastDocument: DocumentSnapshot?
+                
+                count v func in viewModel 
+                
+                6. 
+                Extension QUERY 
+                //ONLY ELEMENT..
+                    func getDocumentsT<T>(as type: T.Type) async throws -> [T] where T: Decodable {
+                        try await getDocumentsWithSnapshotT(as: type).product
+                    }
+                // ADD ELSE snapsHOT LAST ELEMET FOR PAGINATON
+                    func getDocumentsWithSnapshotT<T>(as type: T.Type) async throws -> (product: [T], lastDocument: DocumentSnapshot?) where T: Decodable {
+                        let snapshot = try await self.getDocuments()
+                        
+                        let products = try snapshot.documents.map { document in
+                            try document.data(as: T.self)
+                        }
+                        return (products, snapshot.documents.last)
+                    }
+                
+                7. VIEW MODEL ADD sort by rating func 
+                add getproduct func 
+                
+                add last   private var lastDocument: DocumentSnapshot? = nil
+                for savelast for pagination
+
+                """)
+            
         }
     }
 }

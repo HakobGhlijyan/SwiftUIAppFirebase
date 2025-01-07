@@ -30,6 +30,7 @@ struct ProductCellView: View {
                     .font(.headline)
                     .foregroundStyle(Color.primary)
                 Text("Price: $" + String(product.price ?? 0))
+                Text("\(product.rating ?? 0, specifier: "%.2f")")
                 Text("Category: " + (product.category?.rawValue.capitalized ?? "n/a"))
                 Text("Brand: " + (product.brand ?? "n/a"))
             }

@@ -14,7 +14,7 @@ struct ProductArray: Codable {
 }
 
 // MARK: - Product
-struct Product: Identifiable, Codable {
+struct Product: Identifiable, Codable, Equatable {
     let id: Int
     let title: String?
     let description: String?
@@ -58,6 +58,10 @@ struct Product: Identifiable, Codable {
         case meta
         case images
         case thumbnail
+    }
+    
+    static func == (_ lhs: Product, _ rhs: Product) -> Bool {
+        lhs.id == rhs.id
     }
 }
 
