@@ -156,6 +156,14 @@ struct ContentView: View {
 
                 """)
             
+            
+            Text("""
+                Module 07 - Firebase Firestore - part 7
+                
+                End part 7
+                
+                """)
+            
         }
     }
 }

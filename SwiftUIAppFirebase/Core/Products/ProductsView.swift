@@ -67,8 +67,6 @@ final class ProductsViewModel: ObservableObject {
     }
 
     func getProducts() {
-//        print("LAST DOC")
-//        print(lastDocument)
         Task {
             let (newProducts, lastDocument) = try await ProductsManager.shared.getAllProducts(
                 priceDescending: selectedFilter?.priceDescending,
@@ -80,9 +78,6 @@ final class ProductsViewModel: ObservableObject {
             if let lastDocument {
                 self.lastDocument = lastDocument
             }
-            
-//            print("RETURNED DOC")
-//            print(lastDocument)
         }
     }
     
@@ -108,17 +103,12 @@ struct ProductsView: View {
     
     var body: some View {
         List {
-//            Button("Fetch more...") {
-//                viewModel.getProductsByRating()
-//            }
-            
             ForEach(viewModel.products) { product in
                 ProductCellView(product: product)
                 
                 if product == viewModel.products.last {
                     ProgressView()
                         .onAppear {
-//                            print("PROGRESS VIEW APPEARED!!!")
                             viewModel.getProducts()
                         }
                 }
