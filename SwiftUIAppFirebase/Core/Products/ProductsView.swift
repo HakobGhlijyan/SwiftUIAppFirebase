@@ -96,6 +96,14 @@ final class ProductsViewModel: ObservableObject {
             print("ALL PRODUCT COUNT: \(count)")
         }
     }
+    
+    func addUserFavoriteProduct(productID: Int) {
+        Task {
+            let authDataResult = try AuthenticationManager.shared.getAuthenticatedUser()
+            
+            try? await UserManager.shared.addUserFavoriteProduct(userID: authDataResult.uid , productID: productID)
+        }
+    }
 }
 
 struct ProductsView: View {
@@ -105,6 +113,11 @@ struct ProductsView: View {
         List {
             ForEach(viewModel.products) { product in
                 ProductCellView(product: product)
+                    .contextMenu {
+                        Button("Add To Favorite") {
+                            viewModel.addUserFavoriteProduct(productID: product.id)
+                        }
+                    }
                 
                 if product == viewModel.products.last {
                     ProgressView()

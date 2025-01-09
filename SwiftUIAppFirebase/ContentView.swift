@@ -161,13 +161,31 @@ struct ContentView: View {
                 Module 07 - Firebase Firestore - part 7
                 
                 End part 7
+                ADD Tab 
+                1. ADD tab bar , 3 irem 
+                second item is favorite
                 
+                2. in viewmodel add get func
+                and in user manager add model for fovorite product
+                
+                3.
+                in Product view add func for add favorite
+                and remove 
+                
+                use func in USERmanager
+                
+                4. ADD CELL BUILDER
+                
+                5.ADD Tan BAr View
+                and change in root view -> Tan BAr View
+                
+                6. in USer manager add user favorite collection and doc link
+                
+                7.for favorite 
+                add func , remove
+                get all favorite
                 """)
             
         }
     }
-}
-
-#Preview {
-    ContentView()
 }
