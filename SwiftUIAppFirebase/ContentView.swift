@@ -186,6 +186,12 @@ struct ContentView: View {
                 get all favorite
                 """)
             
+            Text("""
+                Module 08 - Firebase Firestore - part 8
+                
+                End part 8
+                """)
+            
         }
     }
 }

@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import Combine
 
 struct Movie: Codable {
     let id: String
@@ -175,6 +176,63 @@ final class UserManager {
     func getAllUserFavoriteProducts(userID: String) async throws -> [UserFavoriteProduct] {
         try await userFavoriteProductCollection(userID: userID).getDocumentsT(as: UserFavoriteProduct.self)
     }
+    
+    //MARK: - LISTENER - Add Combine
+    func addListenerForAllUserFavoriteProductsCombine(userID: String) -> AnyPublisher<[UserFavoriteProduct], Error>  {
+        //1 eto kogda mi ispolzovali publisher i pisali ves eto kod
+        /*
+         let publisher = PassthroughSubject<[UserFavoriteProduct], Error>()
+         
+         self.userFavoriteProductListener = userFavoriteProductCollection(userID: userID).addSnapshotListener { querySnapshot, error in
+             guard let documents = querySnapshot?.documents else {
+                 print("No Document")
+                 return
+             }
+             let products: [UserFavoriteProduct] = documents.compactMap { try? $0.data(as: UserFavoriteProduct.self) }
+
+             publisher.send(products)
+         }
+         
+         return publisher.eraseToAnyPublisher()
+         */
+        //2 no teper u nas est universal func s pub i list...
+        let (publisher, listener) = userFavoriteProductCollection(userID: userID).addSnapshotListenerT(as: UserFavoriteProduct.self)
+        self.userFavoriteProductListener = listener
+        return publisher
+    }
+    
+    //MARK: - LISTENER - No Combine
+    func addListenerForAllUserFavoriteProducts(userID: String, completion: @escaping (_ products: [UserFavoriteProduct]) -> Void ) {
+        self.userFavoriteProductListener = userFavoriteProductCollection(userID: userID).addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("No Document")
+                return
+            }
+            let products: [UserFavoriteProduct] = documents.compactMap { try? $0.data(as: UserFavoriteProduct.self) }
+
+            completion(products)
+            
+            querySnapshot?.documentChanges.forEach { diff in
+                if (diff.type == .added) {
+                    print("New product: \(diff.document.data())")
+                }
+                if (diff.type == .modified) {
+                    print("Modified product: \(diff.document.data())")
+                }
+                if (diff.type == .removed) {
+                    print("Removed product: \(diff.document.data())")
+                }
+            }
+
+        }
+        
+    }
+    private var userFavoriteProductListener: ListenerRegistration? = nil
+    
+    func removeListenerForAllUserFavoriteProducts() {
+        self.userFavoriteProductListener?.remove()
+    }
+    
 }
 
 struct UserFavoriteProduct: Codable {

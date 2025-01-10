@@ -8,6 +8,7 @@
 import SwiftUI
 import Firebase
 import FirebaseFirestore
+import Combine
 
 final class ProductsManager {
     static let shared = ProductsManager()
@@ -117,6 +118,46 @@ extension Query {
     func aggregateCount() async throws -> Int {
         let snapshot = try await self.count.getAggregation(source: .server)
         return  Int(truncating: snapshot.count)
+    }
+    
+    //MARK: -  UNIVERSAL FUNC LISTENER COMBINE
+    /*
+     func addSnapshotListener(userID: String) -> (AnyPublisher<[UserFavoriteProduct], Error> , ListenerRegistration) {
+         //PUBLISHER
+         let publisher = PassthroughSubject<[UserFavoriteProduct], Error>()
+         
+         //LISTENER
+         let listener = self.addSnapshotListener { querySnapshot, error in
+             guard let documents = querySnapshot?.documents else {
+                 print("No Document")
+                 return
+             }
+             let products: [UserFavoriteProduct] = documents.compactMap { try? $0.data(as: UserFavoriteProduct.self) }
+
+             publisher.send(products)
+         }
+         
+         return (publisher.eraseToAnyPublisher(), listener)
+     }
+     eto func kotoraya imeet v sebe id-> a vozrochaet publisher(combine) i listener(firebase) ...
+     no on ne universal
+     */
+    func addSnapshotListenerT<T>(as type: T.Type) -> (AnyPublisher<[T], Error> , ListenerRegistration) where T: Decodable {
+        //PUBLISHER
+        let publisher = PassthroughSubject<[T], Error>()
+        
+        //LISTENER
+        let listener = self.addSnapshotListener { querySnapshot, error in
+            guard let documents = querySnapshot?.documents else {
+                print("No Document")
+                return
+            }
+            let products: [T] = documents.compactMap { try? $0.data(as: T.self) }
+
+            publisher.send(products)
+        }
+        
+        return (publisher.eraseToAnyPublisher(), listener)
     }
 }
 
