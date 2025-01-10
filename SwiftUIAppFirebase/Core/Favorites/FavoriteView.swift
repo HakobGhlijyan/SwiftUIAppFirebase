@@ -23,18 +23,6 @@ struct FavoriteView: View {
             }
         }
         .navigationTitle("Products")
-//        .onAppear {
-//            //3dlay etogo dobavim state svojstvo...
-//            if !didAppear {
-//                viewModel.addListenerForFavoriteProducts()
-//                print("addListenerForFavoriteProducts")
-//                didAppear = true
-//            }
-//            // 2 . No mi dobavim teper listener... no on budet kajdiy raz vizivatsya ... nam nujno tolko odin raz..
-////            viewModel.addListenerForFavoriteProducts()
-////            print("addListenerForFavoriteProducts")
-//            // 1 . et o pri vizove etogo view .... viewModel.getAllFavorites()
-//        }
         .onFirstAppear {
             viewModel.addListenerForFavoriteProducts()
         }

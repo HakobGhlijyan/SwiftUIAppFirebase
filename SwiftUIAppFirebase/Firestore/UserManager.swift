@@ -179,24 +179,8 @@ final class UserManager {
     
     //MARK: - LISTENER - Add Combine
     func addListenerForAllUserFavoriteProductsCombine(userID: String) -> AnyPublisher<[UserFavoriteProduct], Error>  {
-        //1 eto kogda mi ispolzovali publisher i pisali ves eto kod
-        /*
-         let publisher = PassthroughSubject<[UserFavoriteProduct], Error>()
-         
-         self.userFavoriteProductListener = userFavoriteProductCollection(userID: userID).addSnapshotListener { querySnapshot, error in
-             guard let documents = querySnapshot?.documents else {
-                 print("No Document")
-                 return
-             }
-             let products: [UserFavoriteProduct] = documents.compactMap { try? $0.data(as: UserFavoriteProduct.self) }
-
-             publisher.send(products)
-         }
-         
-         return publisher.eraseToAnyPublisher()
-         */
-        //2 no teper u nas est universal func s pub i list...
         let (publisher, listener) = userFavoriteProductCollection(userID: userID).addSnapshotListenerT(as: UserFavoriteProduct.self)
+        
         self.userFavoriteProductListener = listener
         return publisher
     }

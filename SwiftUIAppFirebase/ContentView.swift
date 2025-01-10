@@ -189,6 +189,31 @@ struct ContentView: View {
             Text("""
                 Module 08 - Firebase Firestore - part 8
                 
+                1. Add View Modifiers for favorites view first time 
+                appear perfor action
+                
+                2. onFirstAppear add in 
+                
+                3. in viewmodel 
+                use combine
+                remove favorite
+                add func use combine
+                for sink add array favor item
+                
+                4. query 
+                add func universal  for listener and combine publisher
+                its use in userManager 
+                
+                5. addListenerForAllUserFavoriteProducts func for listener use firebase 
+                                use escaping 
+                
+                or 
+                    addListenerForAllUserFavoriteProductsCombine
+                
+                version 
+                
+                                use no escaping 
+                                use combine for send publisger data
                 End part 8
                 """)
             
