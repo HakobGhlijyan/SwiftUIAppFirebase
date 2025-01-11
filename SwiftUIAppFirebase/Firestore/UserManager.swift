@@ -25,6 +25,8 @@ struct DBUser: Codable {
     let isPremium: Bool?
     let preferences: [String]?
     let favoritesMovie: Movie?
+    let profileImagePath: String?
+    let profileImagePathURL: String?
     
     init(
         userID: String,
@@ -34,7 +36,9 @@ struct DBUser: Codable {
         dateCreated: Date? = nil,
         isPremium: Bool? = nil,
         preferences: [String]? = nil,
-        favoritesMovie: Movie? = nil
+        favoritesMovie: Movie? = nil,
+        profileImagePath: String? = nil,
+        profileImagePathURL: String? = nil
     ) {
         self.userID = userID
         self.isAnonymous = isAnonymous
@@ -44,6 +48,8 @@ struct DBUser: Codable {
         self.isPremium = isPremium
         self.preferences = preferences
         self.favoritesMovie = favoritesMovie
+        self.profileImagePath = profileImagePath
+        self.profileImagePathURL = profileImagePathURL
     }
     
     init(auth: AuthDataResultModel) {
@@ -55,6 +61,8 @@ struct DBUser: Codable {
         self.isPremium = false
         self.preferences = nil
         self.favoritesMovie = nil
+        self.profileImagePath = nil
+        self.profileImagePathURL = nil
     }
     
     enum CodingKeys: String, CodingKey{
@@ -66,6 +74,8 @@ struct DBUser: Codable {
         case isPremium = "is_premium"
         case preferences = "preferences"
         case favoritesMovie = "favorites_movie"
+        case profileImagePath = "profile_image_path"
+        case profileImagePathURL = "profile_image_path_url"
     }
     
     init(from decoder: any Decoder) throws {
@@ -78,6 +88,8 @@ struct DBUser: Codable {
         self.isPremium = try container.decodeIfPresent(Bool.self, forKey: .isPremium)
         self.preferences = try container.decodeIfPresent([String].self, forKey: .preferences)
         self.favoritesMovie = try container.decodeIfPresent(Movie.self, forKey: .favoritesMovie)
+        self.profileImagePath = try container.decodeIfPresent(String.self, forKey: .profileImagePath)
+        self.profileImagePathURL = try container.decodeIfPresent(String.self, forKey: .profileImagePathURL)
     }
     
     func encode(to encoder: any Encoder) throws {
@@ -90,6 +102,8 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.isPremium, forKey: .isPremium)
         try container.encodeIfPresent(self.preferences, forKey: .preferences)
         try container.encodeIfPresent(self.favoritesMovie, forKey: .favoritesMovie)
+        try container.encodeIfPresent(self.profileImagePath, forKey: .profileImagePath)
+        try container.encodeIfPresent(self.profileImagePathURL, forKey: .profileImagePathURL)
     }
 }
 
@@ -115,11 +129,21 @@ final class UserManager {
     func createNewUser(user: DBUser) async throws {
         try userDocument(userID: user.userID).setData(from: user, merge: false)
     }
+    
     func getUser(userID: String) async throws -> DBUser {
         try await userDocument(userID: userID).getDocument(as: DBUser.self)
     }
+    
     func updateUserPremiumStatus(userID: String, isPremium: Bool) async throws {
         let data: [String: Any] = [DBUser.CodingKeys.isPremium.rawValue : isPremium]
+        try await userDocument(userID: userID).updateData(data)
+    }
+    
+    func updateUserProfileImagePath(userID: String, path: String?, url: String?) async throws {
+        let data: [String: Any] = [
+            DBUser.CodingKeys.profileImagePath.rawValue : path,
+            DBUser.CodingKeys.profileImagePathURL.rawValue : url,
+        ]
         try await userDocument(userID: userID).updateData(data)
     }
     

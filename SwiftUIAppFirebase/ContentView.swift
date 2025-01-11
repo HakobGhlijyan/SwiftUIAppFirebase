@@ -187,7 +187,7 @@ struct ContentView: View {
                 """)
             
             Text("""
-                Module 08 - Firebase Firestore - part 8
+                Module 07 - Firebase Firestore - part 8
                 
                 1. Add View Modifiers for favorites view first time 
                 appear perfor action
@@ -215,6 +215,87 @@ struct ContentView: View {
                                 use no escaping 
                                 use combine for send publisger data
                 End part 8
+                """)
+            
+            
+            Text("""
+                Module 08 - Firebase Storage
+                
+                Module 08
+                Storage 
+                add profile view model
+
+                1.
+                in user manager add new 2 line in data 
+                    let profileImagePath: String?
+                    let profileImagePathURL: String?
+
+                
+                2. add 
+                func updateUserProfileImagePath(userID: String, path: String?, url: String?) async throws {
+                let data: [String: Any] = [
+                    DBUser.CodingKeys.profileImagePath.rawValue : path,
+                    DBUser.CodingKeys.profileImagePathURL.rawValue : url,
+                ]
+                try await userDocument(userID: userID).updateData(data)
+                }
+                
+                update path and url image
+
+                
+                3. add storage manager
+
+                4. in st manager
+                func save image for data
+                and save image by UIImage
+
+                func getdata by data
+                func getdata by UIImage
+
+                5. 
+                get url for image for add in user data by path url
+                and delete it image
+
+                6.
+                in view model
+
+                save profile photo 
+                proverka na user ..
+                otom data iz photopicker , preobrozovav v data
+                
+                potom path i name poluchaem po sozraneuunomu puti 
+                saveimage 
+                u nas v storage manager
+                tam on poluchaem meta data
+                poluchaem path, kotoruy UUID stinrg v konce jpg
+                
+                        returnedMetaData kotoriy 
+                        try await userReference(userID: userID).child(path).putDataAsync(data, metadata: meta)
+                
+                po etomu pu dataasync func.. vozrochaet 
+                let returnedMetaData: StorageMetadata 
+                v nem est path i name 
+                Success
+                //             path: SwiftUIAppFirebase_Storage_Users/8cW3UudAD8MZAa075p9qHZffPja2/16288BF1-02D9-43E6-9A1F-B8138DCE6B2D.jpg  !!!!
+                //             name: 16288BF1-02D9-43E6-9A1F-B8138DCE6B2D.jpg
+                
+                a ispolzuya path mi poluchaem url
+                
+                eto saveimage , posle berem etot path i geturl func vizivaya sozdayom  ego 
+                
+                i u user manager update func vizivaua mi obnovluaem eti dianie na profile user
+                
+                chtob ispolzuya eti data potom poluchat po async image 
+                
+                
+                6.1 
+                i konechno udaliv ego vizivaem is sttorage udalenie po path kotoriy soxronili
+                
+                i update , no teper mi delaem ix nil 
+                path i url . 
+                
+                and delete func
+                
                 """)
             
         }
