@@ -141,8 +141,8 @@ final class UserManager {
     
     func updateUserProfileImagePath(userID: String, path: String?, url: String?) async throws {
         let data: [String: Any] = [
-            DBUser.CodingKeys.profileImagePath.rawValue : path,
-            DBUser.CodingKeys.profileImagePathURL.rawValue : url,
+            DBUser.CodingKeys.profileImagePath.rawValue : path as Any,
+            DBUser.CodingKeys.profileImagePathURL.rawValue : url as Any,
         ]
         try await userDocument(userID: userID).updateData(data)
     }

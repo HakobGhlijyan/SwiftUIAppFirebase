@@ -63,41 +63,7 @@ final class ProfileViewModel: ObservableObject {
             self.user = try await UserManager.shared.getUser(userID: user.userID)
         }
     }
-    
-    //1,2
-//    func saveProfilePhoto(item: PhotosPickerItem) {
-//        Task {
-//            guard let data = try await item.loadTransferable(type: Data.self) else { return }
-//            
-//            let (path, name) = try await StorageManager.shared.saveImage(data: data)
-//            print("Success")
-//            print("path: \(path)")
-//            print("name: \(name)")
-//        }
-//    }
-    
-    //3//TAK MI SOXRONYALI 16288BF1-02D9-43E6-9A1F-B8138DCE6B2D.jpg, NO U NAS MOKET BIT I TAK CHTO PAPKI NET ... KAK IMET VES PTH
-//    func saveProfilePhoto(item: PhotosPickerItem) {
-//        guard let user else { return }
-//        Task {
-//            guard let data = try await item.loadTransferable(type: Data.self) else { return }
-//            
-//            let (path, name) = try await StorageManager.shared.saveImage(data: data, userID: user.userID)
-//            print("Success")
-//            print("path: \(path)")
-//            print("name: \(name)")
-//            
-//            try await UserManager.shared.updateUserProfileImagePath(userID: user.userID, path: name)  /// NAME !!!!!!
-//            //try await UserManager.shared.updateUserProfileImagePath(userID: user.userID, path: name)  /// NAME !!!!!!!
-//            /*
-//             Success
-//             path: SwiftUIAppFirebase_Storage_Users/8cW3UudAD8MZAa075p9qHZffPja2/16288BF1-02D9-43E6-9A1F-B8138DCE6B2D.jpg  !!!!
-//             name: 16288BF1-02D9-43E6-9A1F-B8138DCE6B2D.jpg
-//             */
-//        }
-//    }
-    
-    //4 -> tak mi soxronim ves path
+
     func saveProfilePhoto(item: PhotosPickerItem) {
         guard let user else { return }
         Task {
@@ -108,25 +74,16 @@ final class ProfileViewModel: ObservableObject {
             print("path: \(path)")
             print("name: \(name)")
             
-            // url for save in iser data
             let url = try await StorageManager.shared.getURLForImage(path: path)
-            
-            // TAk mo uje sozronili ne silku na iame  , ne path , a sam url polniy chtom brat ego 
-            //try await UserManager.shared.updateUserProfileImagePath(userID: user.userID, path: url.absoluteString)
-            
-            // Teper dobaviv url puth mi path sdelaem path , a v url budet url...
-            // path nujen budet teper dlya delete
             try await UserManager.shared.updateUserProfileImagePath(userID: user.userID, path: path, url: url.absoluteString)
 
         }
     }
     
-    //DELETE IMAGE
     func deleteProfilePhoto() {
         guard let user , let path = user.profileImagePath else { return }
         Task {
             try await StorageManager.shared.deleteImage(path: path)
-            // mi m vesto ubnovleniya , obnovlyaem na znachenie nil
             try await UserManager.shared.updateUserProfileImagePath(userID: user.userID, path: nil, url: nil)
         }
     }
